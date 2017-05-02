@@ -13,6 +13,10 @@ NSTimeInterval now;
 double waiting = 2; // wait in seconds
 
 CGEventRef myCGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+    // SPACE 0x31
+    // ENTER 0x24
+    // NSLog(@"%02x", CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode));
+    
     if (type == kCGEventKeyUp || type == kCGEventKeyDown){
         
         now = [[NSDate date] timeIntervalSince1970];
@@ -22,7 +26,7 @@ CGEventRef myCGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef
             return NULL;
         }
         
-        if (type == kCGEventKeyUp){
+        if (type == kCGEventKeyUp && (CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode) == 0x31 ||CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode) == 0x24)){
             lastKeyUp = now;
         }
     }
